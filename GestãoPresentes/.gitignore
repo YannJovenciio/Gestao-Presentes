@@ -1,0 +1,85 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Environment & Docker ###
+.env                          # Variáveis de ambiente com credenciais
+.env.local                    # Arquivo local não versionado
+docker-compose.override.yml   # Configurações locais do docker-compose
+
+### Logs ###
+logs/
+*.log
+*.log.*
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+*.sql.bak
+*.backup
+
+### OS Specific Files ###
+.DS_Store                     # macOS
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db                     # Windows
+*.swp                         # Vim
+*.swo
+*~
+.project
+.classpath
+
+### IDE Specific ###
+*.sublime-project
+*.sublime-workspace
+.vscode/settings.json
+
+### Build & Dependencies ###
+*.jar.original
+*.tar.gz
+*.zip
+
+### Local Development ###
+*.orig
+*.rej
+.gradle/
+local.properties
+
+### Temp files ###
+*.tmp
+*.bak
+.tmp/
