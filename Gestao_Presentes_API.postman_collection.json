@@ -1,0 +1,276 @@
+{
+  "info": {
+    "name": "Gestão Presentes API",
+    "description": "API REST para gerenciamento de presentes com autenticação JWT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "description": "Endpoints de autenticação e registro de usuários",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    pm.collectionVariables.set('token', 'novo_usuario_registrado');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullName\": \"Jonathan Silva\",\n    \"email\": \"jonathan@email.com\",\n    \"password\": \"lacoste123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Registrar um novo usuário no sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    console.log('Token salvo: ' + jsonData.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"jonathan@email.com\",\n    \"password\": \"lacoste123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Fazer login e obter token JWT"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Avaliadores",
+      "description": "Endpoints para gerenciar avaliadores",
+      "item": [
+        {
+          "name": "Listar Avaliadores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/avaliadores?page=0&size=10&isWithPresente=false",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "avaliadores"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0",
+                  "description": "Número da página (começando do 0)"
+                },
+                {
+                  "key": "size",
+                  "value": "10",
+                  "description": "Quantidade de registros por página"
+                },
+                {
+                  "key": "isWithPresente",
+                  "value": "false",
+                  "description": "Se deve incluir presentes associados (true/false)"
+                }
+              ]
+            },
+            "description": "Lista todos os avaliadores com paginação"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Avaliadores com Presentes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/avaliadores?page=0&size=10&isWithPresente=true",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "avaliadores"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "isWithPresente",
+                  "value": "true",
+                  "description": "Incluir presentes associados"
+                }
+              ]
+            },
+            "description": "Lista avaliadores com os presentes associados (atenção ao N+1)"
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Avaliador por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/avaliadores/1?isWithPresente=false",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "avaliadores", "1"],
+              "query": [
+                {
+                  "key": "isWithPresente",
+                  "value": "false",
+                  "description": "Se deve incluir presentes (true/false)"
+                }
+              ]
+            },
+            "description": "Busca um avaliador específico por ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Avaliador com Presentes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/avaliadores/1?isWithPresente=true",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "avaliadores", "1"],
+              "query": [
+                {
+                  "key": "isWithPresente",
+                  "value": "true",
+                  "description": "Incluir presentes associados"
+                }
+              ]
+            },
+            "description": "Busca um avaliador com seus presentes (atenção ao N+1)"
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Avaliador",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"João Silva\",\n    \"sexo\": \"M\",\n    \"endereco\": \"Rua das Flores, 123 - São Paulo\",\n    \"telefone\": \"(11)99999-9999\",\n    \"email\": \"joao.silva@email.com\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/avaliadores",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "avaliadores"]
+            },
+            "description": "Cria um novo avaliador no sistema"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "Token JWT obtido após login - preenchido automaticamente"
+    },
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "URL base da API"
+    }
+  ]
+}
+

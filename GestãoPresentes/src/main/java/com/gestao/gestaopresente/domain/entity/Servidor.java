@@ -1,11 +1,11 @@
 package com.gestao.gestaopresente.domain.entity;
 
-import com.gestao.gestaopresente.domain.e.Sexo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import com.gestao.gestaopresente.domain.e.Sexo;
 
 @Getter
 @Setter
