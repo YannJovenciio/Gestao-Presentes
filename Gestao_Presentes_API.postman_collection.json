@@ -256,6 +256,129 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Servidor",
+      "description": "Endpoints para gerenciar servidores",
+      "item": [
+        {
+          "name": "Buscar Servidor por Email",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/servidor?email=jonathan@email.com",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "servidor"],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "jonathan@email.com",
+                  "description": "Email do servidor a buscar"
+                }
+              ]
+            },
+            "description": "Busca um servidor pelo seu email"
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Servidor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Novo Servidor\",\n    \"email\": \"novo.servidor@email.com\",\n    \"telefone\": \"(11)98888-8888\",\n    \"endereco\": \"Rua Principal, 456 - São Paulo\",\n    \"sexo\": \"M\",\n    \"continente\": \"AMERICA_DO_SUL\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/servidor",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "servidor"]
+            },
+            "description": "Cria um novo servidor no sistema"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Presente",
+      "description": "Endpoints para gerenciar presentes",
+      "item": [
+        {
+          "name": "Buscar Presentes do Usuário Autenticado",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/presente",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "presente"]
+            },
+            "description": "Busca os presentes associados ao usuário autenticado"
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Presente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Presente Especial\",\n    \"descricao\": \"Um presente muito especial\",\n    \"valor\": 150.00,\n    \"dataEnvio\": \"2026-05-01\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/presente",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "presente"]
+            },
+            "description": "Cria um novo presente vinculado ao usuário autenticado (servidor)"
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [

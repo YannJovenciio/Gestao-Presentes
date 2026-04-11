@@ -5,12 +5,12 @@ import com.gestao.gestaopresente.presentation.controller.presente.PresenteRespon
 
 import java.util.List;
 
-public interface IPresenteService {
+public interface PresenteService {
     PresenteResponse getPresenteById(Long id);
 
     List<PresenteResponse> getAllPresentes(int page, int size);
 
     List<PresenteResponse> getAllPresentesWithServidor(int page, int size);
 
-    PresenteResponse createPresente(PresenteInput input);
+    PresenteResponse createPresente(PresenteInput input, String servidorEmail);
 }

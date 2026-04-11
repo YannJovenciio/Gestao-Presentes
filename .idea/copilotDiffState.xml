@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/GestãoPresentes/src/main/java/com/gestao/gestaopresente/presentation/controller/presente/PresenteInput.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/GestãoPresentes/src/main/java/com/gestao/gestaopresente/presentation/controller/presente/PresenteInput.java" />
+              <option name="originalContent" value="package com.gestao.gestaopresente.presentation.controller.presente;&#10;&#10;import com.gestao.gestaopresente.domain.entity.Pais;&#10;import com.gestao.gestaopresente.domain.entity.Servidor;&#10;&#10;import java.time.LocalDate;&#10;&#10;public record PresenteInput(Pais paisId, Servidor Servidor, LocalDate dataEntrega, String observacao, double valor) {&#10;}&#10;" />
+              <option name="updatedContent" value="package com.gestao.gestaopresente.presentation.controller.presente;&#10;&#10;import java.time.LocalDate;&#10;&#10;public record PresenteInput(Long paisId, Long servidorId, LocalDate dataEntrega, String observacao, double valor) {&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
