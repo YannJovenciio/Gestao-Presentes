@@ -1,7 +1,7 @@
 package com.gestao.gestaopresente.presentation.controller.presente;
 
 import com.gestao.gestaopresente.presentation.dto.Response;
-import com.gestao.gestaopresente.service.presente.PresenteService;
+import com.gestao.gestaopresente.service.presente.IPresenteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/presente")
 @Slf4j
 public class PresenteController {
-    private final PresenteService presenteService;
+    private final IPresenteService presenteService;
 
-    public PresenteController(PresenteService presenteService) {
+    public PresenteController(IPresenteService presenteService) {
         this.presenteService = presenteService;
     }
 
@@ -28,7 +28,7 @@ public class PresenteController {
         if (authentication != null && authentication.isAuthenticated()) {
             authentication = SecurityContextHolder.getContext().getAuthentication();
             var email = authentication.getName();
-            var response = presenteService.createPresente(input, email);
+            var response = presenteService.create(input, email);
 
 
             return ResponseEntity.status(HttpStatus.CREATED).body(new Response<PresenteResponse>(response, "Succesfull created presente"));

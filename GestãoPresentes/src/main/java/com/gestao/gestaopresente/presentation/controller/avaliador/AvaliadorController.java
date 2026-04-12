@@ -33,8 +33,8 @@ public class AvaliadorController {
                 page, size, isWithPresente);
 
         List<AvaliadorResponse> avaliadores = isWithPresente
-                ? avaliadorService.getAllAvaliadorWithPresentes(page, size)
-                : avaliadorService.getAllAvaliador(page, size);
+                ? avaliadorService.getAllWithPresentes(page, size)
+                : avaliadorService.getAll(page, size);
 
         var response = new Response<>(
                 avaliadores,
@@ -54,8 +54,8 @@ public class AvaliadorController {
         log.info("Buscando avaliador: id={}, comPresentes={}", id, isWithPresente);
 
         AvaliadorResponse avaliador = isWithPresente
-                ? avaliadorService.getAvaliadorByIdWithPresentes(id)
-                : avaliadorService.getAvaliadorById(id);
+                ? avaliadorService.getByIdWithPresentes(id)
+                : avaliadorService.getById(id);
 
         var response = new Response<>(
                 avaliador,
@@ -72,7 +72,7 @@ public class AvaliadorController {
             @Valid @RequestBody AvaliadorInput input) {
 
         log.info("Criando novo avaliador: {}", input);
-        var avaliador = avaliadorService.createAvaliador(input);
+        var avaliador = avaliadorService.create(input);
 
         var response = new Response<>(
                 avaliador,

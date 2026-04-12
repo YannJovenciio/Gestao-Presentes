@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @Log
 @Service
-public class PresenteServiceImpl implements PresenteService {
+public class PresenteServiceImpl implements IPresenteService {
     private final PresenteRepository presenteRepository;
     private final ServidorRepository servidorRepository;
 
@@ -27,13 +27,13 @@ public class PresenteServiceImpl implements PresenteService {
     }
 
     @Override
-    public PresenteResponse getPresenteById(Long id) {
+    public PresenteResponse getById(Long id) {
         var presente = presenteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entidade não encontrada para o id fornecido"));
         return new PresenteResponse(presente.getId(), presente.getPaisId(), presente.getDataEntrega(), presente.getObservacao(), presente.getValor());
     }
 
     @Override
-    public List<PresenteResponse> getAllPresentes(int page, int size) {
+    public List<PresenteResponse> getAll(int page, int size) {
         log.info("Buscando todos os presentes com paginação");
         var pageable = PageRequest.of(page, size);
         var presentes = presenteRepository.findAll(pageable);
@@ -41,7 +41,7 @@ public class PresenteServiceImpl implements PresenteService {
     }
 
     @Override
-    public List<PresenteResponse> getAllPresentesWithServidor(int page, int size) {
+    public List<PresenteResponse> getAllWithServidor(int page, int size) {
 
         log.info("Buscando todos os presentes com paginação");
         var presentes = presenteRepository.findAllWithServidor();
@@ -49,7 +49,7 @@ public class PresenteServiceImpl implements PresenteService {
     }
 
     @Override
-    public PresenteResponse createPresente(PresenteInput input, String servidorEmail) {
+    public PresenteResponse create(PresenteInput input, String servidorEmail) {
 
         var servidor = servidorRepository.findByEmail(servidorEmail);
         log.info("Criando presente");

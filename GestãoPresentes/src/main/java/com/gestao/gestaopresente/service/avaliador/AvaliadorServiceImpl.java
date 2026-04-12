@@ -22,7 +22,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
         this.repository = repository;
     }
 
-    public AvaliadorResponse createAvaliador(AvaliadorInput input) {
+    public AvaliadorResponse create(AvaliadorInput input) {
         log.info("Criando novo Avaliador: {}", input.nome());
 
         if (input.nome() == null || input.nome().isEmpty()) {
@@ -52,7 +52,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
     }
 
     @Override
-    public void deleteAvaliador(Long id) {
+    public void delete(Long id) {
         log.info("Deletando avaliador com ID: {}", id);
 
         if (!repository.existsById(id)) {
@@ -65,7 +65,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
 
     @Override
     @Transactional(readOnly = true)
-    public AvaliadorResponse getAvaliadorById(Long id) {
+    public AvaliadorResponse getById(Long id) {
         log.info("Buscando avaliador com ID: {}", id);
         var avaliador = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Avaliador com ID " + id + " não encontrado"));
@@ -82,7 +82,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
 
     @Override
     @Transactional(readOnly = true)
-    public AvaliadorResponse getAvaliadorByIdWithPresentes(Long id) {
+    public AvaliadorResponse getByIdWithPresentes(Long id) {
         log.info("Buscando avaliador com ID e Presentes: {}", id);
         var avaliador = repository.findByIdWithPresentes(id)
                 .orElseThrow(() -> new EntityNotFoundException("Avaliador com ID " + id + " não encontrado"));
@@ -100,7 +100,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AvaliadorResponse> getAllAvaliador(int page, int size) {
+    public List<AvaliadorResponse> getAll(int page, int size) {
         log.info("Buscando todos os avaliadores com paginação");
         var pageable = PageRequest.of(page, size);
         var avaliadores = repository.findAll(pageable);
@@ -118,7 +118,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
 
     // ✅ SOBRECARGA: Lista com Presentes (evita N+1)
     @Transactional(readOnly = true)
-    public List<AvaliadorResponse> getAllAvaliadorWithPresentes(int page, int size) {
+    public List<AvaliadorResponse> getAllWithPresentes(int page, int size) {
         log.info("Buscando todos os avaliadores com Presentes");
         var avaliadores = repository.findAllWithPresentes();
 

@@ -31,6 +31,9 @@ public class AuthService {
     }
 
     public UsuarioResponse signup(RegisterDto input) {
+        if (repository.existsByEmail(input.email()))
+            throw new IllegalArgumentException("Email fornecido já está em uso");
+
         Usuario usuario = new Usuario();
         usuario.setFullName(input.fullName());
         usuario.setEmail(input.email());

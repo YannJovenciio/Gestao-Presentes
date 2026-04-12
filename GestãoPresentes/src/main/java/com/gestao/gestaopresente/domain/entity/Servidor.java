@@ -1,9 +1,11 @@
 package com.gestao.gestaopresente.domain.entity;
 
 import com.gestao.gestaopresente.domain.e.Sexo;
+import com.gestao.gestaopresente.presentation.controller.servidor.ServidorResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class Servidor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,5 +38,11 @@ public class Servidor {
         email = Email;
         cpf = Cpf;
         nomeCompleto = NomeCompleto;
+    }
+
+    public ServidorResponse toResponse() {
+        return new ServidorResponse(
+                id, funcao, sexo, dataNasc, salario, email, cpf, nomeCompleto
+        );
     }
 }

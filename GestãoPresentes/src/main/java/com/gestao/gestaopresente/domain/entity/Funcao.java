@@ -1,5 +1,6 @@
 package com.gestao.gestaopresente.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,9 @@ public class Funcao {
     private Long id;
     private String nome;
     private String descricao;
+    
     @OneToMany(mappedBy = "funcao")
+    @JsonIgnore
     private List<Servidor> servidores = new ArrayList<>();
 
 }

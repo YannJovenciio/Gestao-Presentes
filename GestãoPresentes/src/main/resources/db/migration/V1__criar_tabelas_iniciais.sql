@@ -9,7 +9,7 @@ email VARCHAR(150) NOT NULL UNIQUE
 
 CREATE TABLE IF NOT EXISTS funcao(
     id BIGSERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(100) NOT NULL UNIQUE,
     descricao VARCHAR(150)
 );
 
@@ -24,8 +24,8 @@ id BIGSERIAL PRIMARY KEY,
 sexo VARCHAR(10) NOT NULL CHECK (sexo IN ('FEMININO', 'MASCULINO', 'feminino', 'masculino')),
 data_nasc DATE,
 salario DECIMAL(10,2),
-email VARCHAR(150),
-cpf VARCHAR(30),
+email VARCHAR(150)NOT NULL UNIQUE,
+cpf VARCHAR(30) NOT NULL UNIQUE,
 nome_completo VARCHAR(100),
 funcao_id BIGINT NOT NULL,
 FOREIGN KEY (funcao_id) REFERENCES funcao(id)
