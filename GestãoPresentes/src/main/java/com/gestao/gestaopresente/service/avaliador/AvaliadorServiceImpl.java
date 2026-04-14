@@ -5,12 +5,11 @@ import com.gestao.gestaopresente.infra.repository.AvaliadorRepository;
 import com.gestao.gestaopresente.presentation.controller.avaliador.AvaliadorInput;
 import com.gestao.gestaopresente.presentation.controller.avaliador.AvaliadorResponse;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -30,13 +29,13 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
             throw new IllegalArgumentException("Nome do Avaliador não pode ser nulo ou vazio");
         }
 
-        var avaliador = new Avaliador(
-                input.nome(),
-                input.sexo(),
-                input.endereco(),
-                input.telefone(),
-                input.email()
-        );
+        var avaliador =
+                new Avaliador(
+                        input.nome(),
+                        input.sexo(),
+                        input.endereco(),
+                        input.telefone(),
+                        input.email());
         var avaliadorSalvo = repository.save(avaliador);
         log.info("Avaliador criado com sucesso. ID: {}", avaliadorSalvo.getId());
 
@@ -46,9 +45,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
                 avaliadorSalvo.getSexo(),
                 avaliadorSalvo.getEndereco(),
                 avaliadorSalvo.getTelefone(),
-                avaliadorSalvo.getEmail()
-        );
-
+                avaliadorSalvo.getEmail());
     }
 
     @Override
@@ -67,8 +64,13 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
     @Transactional(readOnly = true)
     public AvaliadorResponse getById(Long id) {
         log.info("Buscando avaliador com ID: {}", id);
-        var avaliador = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Avaliador com ID " + id + " não encontrado"));
+        var avaliador =
+                repository
+                        .findById(id)
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Avaliador com ID " + id + " não encontrado"));
 
         return new AvaliadorResponse(
                 avaliador.getId(),
@@ -76,16 +78,20 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
                 avaliador.getSexo(),
                 avaliador.getEndereco(),
                 avaliador.getTelefone(),
-                avaliador.getEmail()
-        );
+                avaliador.getEmail());
     }
 
     @Override
     @Transactional(readOnly = true)
     public AvaliadorResponse getByIdWithPresentes(Long id) {
         log.info("Buscando avaliador com ID e Presentes: {}", id);
-        var avaliador = repository.findByIdWithPresentes(id)
-                .orElseThrow(() -> new EntityNotFoundException("Avaliador com ID " + id + " não encontrado"));
+        var avaliador =
+                repository
+                        .findByIdWithPresentes(id)
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Avaliador com ID " + id + " não encontrado"));
 
         return new AvaliadorResponse(
                 avaliador.getId(),
@@ -94,8 +100,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
                 avaliador.getEndereco(),
                 avaliador.getTelefone(),
                 avaliador.getEmail(),
-                avaliador.getPresentes()
-        );
+                avaliador.getPresentes());
     }
 
     @Override
@@ -105,14 +110,15 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
         var pageable = PageRequest.of(page, size);
         var avaliadores = repository.findAll(pageable);
         return avaliadores.stream()
-                .map(a -> new AvaliadorResponse(
-                        a.getId(),
-                        a.getNome(),
-                        a.getSexo(),
-                        a.getEndereco(),
-                        a.getTelefone(),
-                        a.getEmail()
-                ))
+                .map(
+                        a ->
+                                new AvaliadorResponse(
+                                        a.getId(),
+                                        a.getNome(),
+                                        a.getSexo(),
+                                        a.getEndereco(),
+                                        a.getTelefone(),
+                                        a.getEmail()))
                 .toList();
     }
 
@@ -123,15 +129,16 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
         var avaliadores = repository.findAllWithPresentes();
 
         return avaliadores.stream()
-                .map(a -> new AvaliadorResponse(
-                        a.getId(),
-                        a.getNome(),
-                        a.getSexo(),
-                        a.getEndereco(),
-                        a.getTelefone(),
-                        a.getEmail(),
-                        a.getPresentes()
-                ))
+                .map(
+                        a ->
+                                new AvaliadorResponse(
+                                        a.getId(),
+                                        a.getNome(),
+                                        a.getSexo(),
+                                        a.getEndereco(),
+                                        a.getTelefone(),
+                                        a.getEmail(),
+                                        a.getPresentes()))
                 .toList();
     }
 }

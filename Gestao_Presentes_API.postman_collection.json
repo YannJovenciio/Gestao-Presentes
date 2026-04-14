@@ -262,6 +262,28 @@
       "description": "Endpoints para gerenciar servidores",
       "item": [
         {
+          "name": "Listar Todos Servidores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/servidor",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "servidor"]
+            },
+            "description": "Lista todos os servidores cadastrados"
+          },
+          "response": []
+        },
+        {
           "name": "Buscar Servidor por Email",
           "request": {
             "method": "GET",
@@ -273,18 +295,11 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8080/api/servidor?email=jonathan@email.com",
+              "raw": "http://localhost:8080/api/servidor/jonathan@email.com",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",
-              "path": ["api", "servidor"],
-              "query": [
-                {
-                  "key": "email",
-                  "value": "jonathan@email.com",
-                  "description": "Email do servidor a buscar"
-                }
-              ]
+              "path": ["api", "servidor", "jonathan@email.com"]
             },
             "description": "Busca um servidor pelo seu email"
           },
@@ -307,7 +322,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"nome\": \"Novo Servidor\",\n    \"email\": \"novo.servidor@email.com\",\n    \"telefone\": \"(11)98888-8888\",\n    \"endereco\": \"Rua Principal, 456 - São Paulo\",\n    \"sexo\": \"M\",\n    \"continente\": \"AMERICA_DO_SUL\"\n}"
+              "raw": "{\n    \"funcaoId\": 1,\n    \"sexo\": \"MASCULINO\",\n    \"dataNasc\": \"1990-05-15\",\n    \"salario\": 5000.00,\n    \"email\": \"novo.servidor@email.com\",\n    \"cpf\": \"12345678901\",\n    \"nomeCompleto\": \"João da Silva Santos\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/servidor",
@@ -316,7 +331,73 @@
               "port": "8080",
               "path": ["api", "servidor"]
             },
-            "description": "Cria um novo servidor no sistema"
+            "description": "Cria um novo servidor no sistema (valida com BasicInfo)"
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Servidor",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"funcaoId\": 2,\n    \"sexo\": \"MASCULINO\",\n    \"dataNasc\": \"1990-05-15\",\n    \"salario\": 6500.00,\n    \"email\": \"servidor.atualizado@email.com\",\n    \"cpf\": \"12345678901\",\n    \"nomeCompleto\": \"João da Silva Santos Jr\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/servidor/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "servidor", "1"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "ID do servidor a ser atualizado"
+                }
+              ]
+            },
+            "description": "Atualiza um servidor existente (valida com AdvancedInfo). O ID vem do path, não do body."
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Servidor",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtido no login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/servidor/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "servidor", "1"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "ID do servidor a ser deletado"
+                }
+              ]
+            },
+            "description": "Remove um servidor do sistema"
           },
           "response": []
         }

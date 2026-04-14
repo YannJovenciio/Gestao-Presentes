@@ -2,11 +2,9 @@ package com.gestao.gestaopresente.service.avaliador;
 
 import com.gestao.gestaopresente.presentation.controller.avaliador.AvaliadorInput;
 import com.gestao.gestaopresente.presentation.controller.avaliador.AvaliadorResponse;
-
 import java.util.List;
 
 public interface IAvaliadorService {
-
 
     AvaliadorResponse create(AvaliadorInput input);
 

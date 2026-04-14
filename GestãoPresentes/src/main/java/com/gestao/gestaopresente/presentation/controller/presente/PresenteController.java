@@ -23,15 +23,16 @@ public class PresenteController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> createPresente(@RequestBody PresenteInput input, Authentication authentication) {
+    public ResponseEntity<Response> createPresente(
+            @RequestBody PresenteInput input, Authentication authentication) {
 
         if (authentication != null && authentication.isAuthenticated()) {
             authentication = SecurityContextHolder.getContext().getAuthentication();
             var email = authentication.getName();
             var response = presenteService.create(input, email);
 
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(new Response<PresenteResponse>(response, "Succesfull created presente"));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new Response<PresenteResponse>(response, "Succesfull created presente"));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Um erro ocorreu"));
     }

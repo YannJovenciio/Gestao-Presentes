@@ -23,8 +23,7 @@ public class AuthService {
     public AuthService(
             UsuarioRepository repository,
             AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder
-    ) {
+            PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
@@ -43,7 +42,8 @@ public class AuthService {
         usuario.setPassword(senhaHasheada);
 
         repository.save(usuario);
-        return new UsuarioResponse(usuario.getFullName(), usuario.getEmail(), usuario.getCreatedAt());
+        return new UsuarioResponse(
+                usuario.getFullName(), usuario.getEmail(), usuario.getCreatedAt());
     }
 
     public Usuario authenticate(LoginDto input) {
@@ -51,18 +51,15 @@ public class AuthService {
 
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            input.email(),
-                            input.password()
-                    )
-            );
+                    new UsernamePasswordAuthenticationToken(input.email(), input.password()));
         } catch (Exception e) {
             log.error("Erro na autenticação: {}", e.getMessage());
             Usuario usuarioTemp = repository.findByEmail(input.email());
             if (usuarioTemp != null) {
                 log.debug("Usuário encontrado: {}", usuarioTemp.getEmail());
                 log.debug("Senha no banco (hash): {}", usuarioTemp.getPassword());
-                boolean senhaValida = passwordEncoder.matches(input.password(), usuarioTemp.getPassword());
+                boolean senhaValida =
+                        passwordEncoder.matches(input.password(), usuarioTemp.getPassword());
                 log.debug("Senha válida: {}", senhaValida);
             }
             throw e;
@@ -75,5 +72,4 @@ public class AuthService {
         log.info("Autenticação bem-sucedida para: {}", input.email());
         return usuario;
     }
-
 }

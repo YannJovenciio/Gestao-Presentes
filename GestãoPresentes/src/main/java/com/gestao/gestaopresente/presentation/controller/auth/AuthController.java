@@ -25,7 +25,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Response<LoginResponse>> authenticate(@Valid @RequestBody LoginDto input) {
+    public ResponseEntity<Response<LoginResponse>> authenticate(
+            @Valid @RequestBody LoginDto input) {
         log.info("Recebendo request para /login");
 
         var usuario = authService.authenticate(input);

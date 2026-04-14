@@ -6,10 +6,9 @@ import com.gestao.gestaopresente.infra.repository.ServidorRepository;
 import com.gestao.gestaopresente.presentation.controller.servidor.ServidorInput;
 import com.gestao.gestaopresente.presentation.controller.servidor.ServidorResponse;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -17,7 +16,8 @@ public class ServidorServiceImpl implements IServidorService {
     private final ServidorRepository servidorRepository;
     private final FuncaoRepository funcaoRepository;
 
-    public ServidorServiceImpl(ServidorRepository servidorRepository, FuncaoRepository funcaoRepository) {
+    public ServidorServiceImpl(
+            ServidorRepository servidorRepository, FuncaoRepository funcaoRepository) {
         this.servidorRepository = servidorRepository;
         this.funcaoRepository = funcaoRepository;
     }
@@ -35,41 +35,84 @@ public class ServidorServiceImpl implements IServidorService {
         log.info("Iniciando busca para todos servidores");
         var servidores = servidorRepository.findAll();
         log.info(" quantidade de servidores encontrados:{}", servidores.size());
-        return servidores.stream().<ServidorResponse>map(s -> new ServidorResponse(s.getId(), s.getFuncao(), s.getSexo(), s.getDataNasc(), s.getSalario(), s.getEmail(), s.getCpf(), s.getCpf())).toList();
+        return servidores.stream()
+                .<ServidorResponse>map(
+                        s ->
+                                new ServidorResponse(
+                                        s.getId(),
+                                        s.getFuncao(),
+                                        s.getSexo(),
+                                        s.getDataNasc(),
+                                        s.getSalario(),
+                                        s.getEmail(),
+                                        s.getCpf(),
+                                        s.getCpf()))
+                .toList();
     }
 
     @Override
     public ServidorResponse create(ServidorInput input) {
-        log.info("Iniciando criação de novo servidor. Email: {}, Nome: {}", input.email(), input.nomeCompleto());
+        log.info(
+                "Iniciando criação de novo servidor. Email: {}, Nome: {}",
+                input.email(),
+                input.nomeCompleto());
 
-        var funcao = funcaoRepository.findById(input.funcaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Função com ID " + input.funcaoId() + " não encontrada"));
+        var funcao =
+                funcaoRepository
+                        .findById(input.funcaoId())
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Função com ID "
+                                                        + input.funcaoId()
+                                                        + " não encontrada"));
 
-        var servidor = new Servidor(funcao, input.sexo(), input.dataNasc(), input.salario(), input.email(), input.cpf(), input.nomeCompleto());
+        var servidor =
+                new Servidor(
+                        funcao,
+                        input.sexo(),
+                        input.dataNasc(),
+                        input.salario(),
+                        input.email(),
+                        input.cpf(),
+                        input.nomeCompleto());
         servidorRepository.save(servidor);
 
-        log.info("Servidor persistido com sucesso. ID: {}, Email: {}", servidor.getId(), servidor.getEmail());
+        log.info(
+                "Servidor persistido com sucesso. ID: {}, Email: {}",
+                servidor.getId(),
+                servidor.getEmail());
         return servidor.toResponse();
     }
 
     @Override
-    public ServidorResponse update(UpdateServidorDto input, Long id) {
+    public ServidorResponse update(Long id, ServidorInput input) {
 
-        var check = input.Check();
-        log.info("Iniciando request para para atualizar Servidor com dados:{}", check.toString());
-        var servidorToUpdate = servidorRepository.getById(id);
+        log.info(
+                "Iniciando request para atualizar Servidor com ID: {} e dados: {}",
+                id,
+                input.toString());
+        var servidorToUpdate = servidorRepository.getReferenceById(id);
+        var funcao =
+                funcaoRepository
+                        .findById(input.funcaoId())
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Função com ID "
+                                                        + input.funcaoId()
+                                                        + " não encontrada"));
 
-        if (check.updateEmail())
-            servidorToUpdate.setEmail(input.email());
-
-        if (check.updateFuncao())
-            servidorToUpdate.setFuncao(input.funcao());
-
-        if (check.updateSalario())
-            servidorToUpdate.setSalario(input.salario());
+        servidorToUpdate.setEmail(input.email());
+        servidorToUpdate.setFuncao(funcao);
+        servidorToUpdate.setSalario(input.salario());
 
         servidorRepository.save(servidorToUpdate);
 
+        log.info(
+                "Servidor atualizado com sucesso. ID: {}, Email: {}",
+                servidorToUpdate.getId(),
+                servidorToUpdate.getEmail());
         return servidorToUpdate.toResponse();
     }
 
@@ -81,6 +124,3 @@ public class ServidorServiceImpl implements IServidorService {
         servidorRepository.deleteById(id);
     }
 }
-
-
-
