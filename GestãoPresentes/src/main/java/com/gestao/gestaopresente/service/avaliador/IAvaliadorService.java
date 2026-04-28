@@ -17,4 +17,6 @@ public interface IAvaliadorService {
     List<AvaliadorResponse> getAll(int page, int size);
 
     List<AvaliadorResponse> getAllWithPresentes(int page, int size);
+
+    AvaliadorResponse update(Long id, AvaliadorInput input);
 }

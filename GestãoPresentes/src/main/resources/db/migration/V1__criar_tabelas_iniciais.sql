@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS presente(
     id BIGSERIAL PRIMARY KEY,
     data_entrega DATE,
     observacao VARCHAR(255),
-    valor DECIMAL,
+    valor DECIMAL(10,2),
     pais_id BIGINT NOT NULL,
     avaliador_id BIGINT NOT NULL,
     servidor_id BIGINT NOT NULL,

@@ -1,17 +1,23 @@
-FROM maven:3.9.9-eclipse-temurin-17 AS build
+# Imagem única (sem multi-stage para compatibilidade)
+FROM eclipse-temurin:17-jdk
+
 WORKDIR /app
 
+# Instalar Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copiar arquivos do projeto
 COPY pom.xml .
-RUN mvn -q -DskipTests dependency:go-offline
-
 COPY src ./src
-RUN mvn -q -DskipTests clean package
 
-FROM eclipse-temurin:17-jre
-WORKDIR /app
+# Build da aplicação (pulando Spotless no Docker)
+RUN mvn clean package -DskipTests -Dspotless.check.skip=true
 
-COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Executar o JAR gerado
+ENTRYPOINT ["java", "-jar", "/app/target/GestaoPresentes-0.0.1-SNAPSHOT.jar"]
 

@@ -109,7 +109,7 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
         log.info("Buscando todos os avaliadores com paginação");
         var pageable = PageRequest.of(page, size);
         var avaliadores = repository.findAll(pageable);
-        return avaliadores.stream()
+        return avaliadores
                 .map(
                         a ->
                                 new AvaliadorResponse(
@@ -122,7 +122,6 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
                 .toList();
     }
 
-    // ✅ SOBRECARGA: Lista com Presentes (evita N+1)
     @Transactional(readOnly = true)
     public List<AvaliadorResponse> getAllWithPresentes(int page, int size) {
         log.info("Buscando todos os avaliadores com Presentes");
@@ -140,5 +139,17 @@ public class AvaliadorServiceImpl implements IAvaliadorService {
                                         a.getEmail(),
                                         a.getPresentes()))
                 .toList();
+    }
+
+    @Override
+    public AvaliadorResponse update(Long id, AvaliadorInput input) {
+        var avaliador =
+                repository
+                        .findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Avaliador inexistente"));
+        avaliador.setEmail(input.email());
+        avaliador.setTelefone(input.telefone());
+
+        return null;
     }
 }
